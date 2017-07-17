@@ -1,0 +1,190 @@
+body
+{
+  display: block;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #faf8ef;
+    -webkit-transition: background-color 200ms ease-in;
+    -moz-transition: background-color 200ms ease-in;
+    -o-transition: background-color 200ms ease-in;
+    -ms-transition: background-color 200ms ease-in;
+    transition: background-color 200ms ease-in;
+}
+
+table
+{
+  margin: auto;
+  user-select: none; 
+  cursor: default;
+  border-collapse: collapse;
+  text-align:center;
+  table-layout:fixed;
+}
+td
+{
+  border:2px solid orange;
+  width: 48px;
+  height: 50px;
+  padding: 0px;
+}
+td > svg
+{
+  cursor: pointer;
+}
+tr:first-child td
+{
+  border-top:2px solid black;
+}
+tr:last-child td
+{
+  border-bottom:2px solid black;
+}
+td:first-of-type
+{
+  border-left:2px solid black;
+}
+td:last-of-type
+{
+  border-right:2px solid black;
+}
+tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd)
+{
+  background-color: indianred;
+}
+tr:nth-child(odd) td:nth-child(even):hover, tr:nth-child(even) td:nth-child(odd):hover
+{
+  background-color: firebrick;
+}
+tr:nth-child(even) td:nth-child(even), tr:nth-child(odd) td:nth-child(odd)
+{
+  background-color: lightslategray;
+}
+tr:nth-child(even) td:nth-child(even):hover, tr:nth-child(odd) td:nth-child(odd):hover
+{
+  background-color: dimgray;
+}
+th
+{
+  font-weight: bold;
+  padding: 0px;
+  color: black;
+}
+tfoot th
+{
+  padding-top:5px;
+  vertical-align:top;
+}
+thead th
+{
+  padding-bottom:5px;
+  vertical-align:bottom;
+}
+th:first-child
+{
+  text-align:right;
+  padding-right:5px;
+  width:10px;
+}
+th:last-child
+{
+  text-align:left;
+  padding-left:5px;
+  width:10px;
+}
+svg
+{
+  width:48px;
+  height:48px;
+}
+circle
+{
+  stroke-width:2px;
+}
+text
+{
+  font-size: x-large;
+}
+.Player2
+{
+  stroke: black;
+  fill:dimgrey;
+} 
+.Player1
+{
+  stroke: darkred;
+  fill:red;
+}
+#Title
+{
+  text-align: center;
+  color: #776e65;
+  font-size: 50px;
+  
+}
+
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+}
+
+#currentTurn
+{
+    text-align: center;
+    padding: 20px;
+}
+
+#Turn
+{
+    font-weight: bold;
+    -webkit-transition: color 200ms ease-in;
+    -moz-transition: color 200ms ease-in;
+    -o-transition: color 200ms ease-in;
+    -ms-transition: color 200ms ease-in;
+    transition: color 200ms ease-in;    
+}
+
+#Cursor
+{
+  position:absolute;
+  pointer-events: none;
+  display:none;
+}
+#restartbutton
+{
+    background-color: #faf8ef;
+    color: #776e65;
+    border: 2px black;
+    border-style: solid;
+    border-radius: 20px;
+    width: 80%;
+    left: 10%;
+    position: relative;
+    height: 50px;
+}
+#restartbutton:hover
+{
+    background-color: #d1cfc6;
+}
+
+#msgBox
+{
+    display: none;
+    position: absolute;
+    width: 50%;
+    height: 120px;
+    text-align: center;
+    line-height: 50px;
+    left: 25%;
+    top: 20%;
+    
+    border: black;
+    border-style: solid;  
+    color: #776e65;
+    background-color: #faf8ef;
+}

@@ -1,0 +1,167 @@
+$doctype 5
+<html>
+    <svg style="display:none;">
+        <defs>
+            <symbol #Checker>
+                <circle cx="24" cy="24" r="20">
+                <circle cx="24" cy="24" r="15">
+                <circle cx="24" cy="24" r="10">
+                <circle cx="24" cy="24" r="5">
+            <symbol #King>
+                <circle cx="24" cy="24" r="20">
+                <circle cx="24" cy="24" r="15">
+                <text alignment-baseline="central" text-anchor="middle" x="24" y="24">&#9812;
+    <div #msgBox>
+        <div #msgBoxLabel>
+        <div #restartbutton .noselect> Click to restart
+    <div #Title> Checkers
+    <div #currentTurn> It is now 
+            <span #Turn>
+            turn.
+    <table #Board>
+        <thead>
+            <tr>
+                <th>
+                <th>
+                    1
+                <th>
+                    2
+                <th>
+                    3
+                <th>
+                    4
+                <th>
+                    5
+                <th>
+                    6
+                <th>
+                    7
+                <th>
+                    8
+                <th>
+        <tbody>
+            <tr>
+                <th>
+                    1
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    1
+            <tr>
+                <th>
+                    2
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    2
+            <tr>
+                <th>
+                    3
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    3
+            <tr>
+                <th>
+                    4
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    4
+            <tr>
+                <th>
+                    5
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    5
+            <tr>
+                <th>
+                    6
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    6
+            <tr>
+                <th>
+                    7
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    7
+            <tr>
+                <th>
+                    8
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <td>
+                <th>
+                    8
+        <tfoot>
+            <tr>
+                <th>
+                <th>
+                    1
+                <th>
+                    2
+                <th>
+                    3
+                <th>
+                    4
+                <th>
+                    5
+                <th>
+                    6
+                <th>
+                    7
+                <th>
+                    8
+                <th>
+    <span #Cursor>

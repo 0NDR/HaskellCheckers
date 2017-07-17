@@ -1,0 +1,225 @@
+var Cursor = document.getElementById("Cursor");
+var tiles = document.querySelectorAll("tbody td");
+var title =  document.getElementById("Title");
+var Turn =  document.getElementById("Turn");
+var msgBox = document.getElementById("msgBox");
+var msgBoxLabel = document.getElementById("msgBoxLabel");
+var restartbutton = document.getElementById("restartbutton");
+
+var Selected = null;
+backgroundColorFromPlayer({type: 'b'})
+getBoardFromServer();
+
+restartbutton.addEventListener("click", function (e)
+    {
+        currentBoard = JSON.parse(MakeRequest("/ResetBoard","",false));
+        backgroundColorFromPlayer({type: 'b'})
+        getBoardFromServer()
+        msgBox.style.display = "none";
+    }
+);
+
+function getBoardFromServer()
+{
+    ResetBoard();
+    currentBoard = JSON.parse(MakeRequest("/Board","",false));
+    for(var i=0;i<currentBoard.length;i++)
+    {
+        
+        var xPos = currentBoard[i].x -1;
+        var yPos = currentBoard[i].y-1
+        var type = currentBoard[i].type
+        
+        switch(type)
+        {
+            case 'r':
+                PlaceNewPiece("Player1","Checker",xPos, yPos);
+                break;
+            case 'R':
+                PlaceNewPiece("Player1","King",xPos, yPos);
+                break;
+            case 'b':
+                PlaceNewPiece("Player2","Checker",xPos, yPos);
+                break;
+            case 'B':
+                PlaceNewPiece("Player2","King",xPos, yPos);
+                break;
+        }
+    }
+}
+
+function canMove(xf, yf, xt, yt)
+{
+    possibleMoves = JSON.parse(MakeRequest("/Moves","",false));
+    for(var i=0;i<possibleMoves.length;i++)
+    {
+        move = possibleMoves[i]
+        console.log(move);
+        if(xf == move.FromX && yf == move.FromY && xt == move.ToX && yt == move.ToY)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+document.addEventListener("mousemove", function(e)
+  {
+    Cursor.style.left = (e.pageX - 24)+"px"; 
+    Cursor.style.top = (e.pageY - 24)+"px";
+  }
+);
+
+function ResetBoard()
+{    
+    for(let i=0;i<tiles.length;i++)
+    {
+      tiles[i].setAttribute("x", i%8);
+      tiles[i].innerHTML = "";
+      tiles[i].setAttribute("y", Math.floor(i/8));
+      tiles[i].addEventListener("click",OnTileClick);
+    }
+}
+
+function OnTileClick()
+{
+    if(Selected != null)//Currently holding object
+    {
+      if(!canMove(Selected.getAttribute("x")-0+1,Selected.getAttribute("y")-0+1,this.getAttribute("x")-0+1,this.getAttribute("y")-0+1)) //Clicked Same Tile - Cancel Drop
+      {
+        ReturnPiece();
+      }
+      else
+      {
+        PutDownPiece(this);
+      }
+    }
+    else if(this.childElementCount > 0) //Currently empty Handed and Clicked Tile with Piece
+    {
+      PickUpPiece(this);
+    }
+}
+
+function PlaceNewPiece(player, type, xloc, yloc)
+{
+    var tile = tiles[xloc%8+yloc*8]
+    tile.innerHTML = "<svg> <use class=\""+player+"\" xlink:href=#"+type+"></use></svg>";
+}
+
+function PickUpPiece(Piece)
+{    
+    //Display Cursor
+    Cursor.innerHTML = Piece.innerHTML; 
+    Cursor.style.display = "inline-block";
+
+    //Mark Selected
+    Selected = Piece; 
+    Selected.firstChild.style.opacity = .5;
+}
+function PutDownPiece(Piece)
+{
+    //Make Server Request for a move from SelectedCoord to DroppedCoord
+    resp = JSON.parse(MakeRequest("/MakeMove/xf/"+(Selected.getAttribute("x")-0+1)
+                                    +"/yf/"+(Selected.getAttribute("y")-0+1)
+                                    +"/xt/"+(Piece.getAttribute("x")-0+1)
+                                    +"/yt/"+(Piece.getAttribute("y")-0+1),"", false));
+    backgroundColorFromPlayer(resp.turn);
+    checkWin(resp);
+    
+    Piece.innerHTML = Cursor.innerHTML;
+
+    //UnMark Selected
+    Selected.innerHTML = ""; 
+    Selected = null;
+
+    //Hide Cursor
+    Cursor.innerHTML = ""; 
+    Cursor.style.display = "none";
+        getBoardFromServer();
+}
+
+function checkWin(player)
+{
+    var reason;
+    switch(player.winReason)
+    {
+        case "Trapped":
+            reason = "got Trapped!";
+            break;
+        case "Conquest":
+            reason = "got Destroyed!";
+            break;
+    }
+    
+    switch(player.winner.type)
+    {
+        case 'r':
+            msgBox.style.display = "block"
+            msgBoxLabel.textContent  = "Red wins! Black "+reason
+            break;
+        case 'b':
+            msgBox.style.display = "block"
+            msgBoxLabel.textContent  = "Black wins! Red "+reason
+            break;
+        case ".":
+            msgBox.style.display = "none";
+            break;
+    }
+}
+
+function backgroundColorFromPlayer(player)
+{
+    switch (player.type)
+    {
+        case 'r' :
+            Turn.innerHTML = "Red's"
+            Turn.style.color = "red"
+            document.body.style.backgroundColor = "#7c6161";
+            title.style.color = "black";
+            break;
+        case 'b' :
+            Turn.innerHTML = "Black's"
+            Turn.style.color = "black"
+            document.body.style.backgroundColor = "#7c7c7c";
+            title.style.color = "black";
+            break;
+    }
+}
+
+function ReturnPiece()
+{
+    //UnMark Selected
+    Selected.innerHTML = Cursor.innerHTML;
+    Selected = null;
+
+    //Hide Cursor
+    Cursor.innerHTML = ""; 
+    Cursor.style.display = "none";
+}
+function MakeRequest(url, json, async)
+{
+    var request = new XMLHttpRequest();
+    var response;
+    request.open('GET', url , async);
+    
+    request.onload = function() 
+      {
+        if (this.status == 200) 
+        {
+            response = this.response;
+        }
+        else
+        {
+        }
+      };
+    request.onerror = function() 
+    {
+    
+    };
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(json);
+    return response;
+}
+
+
+
+

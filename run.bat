@@ -1,0 +1,1 @@
+stack runghc App.hs
